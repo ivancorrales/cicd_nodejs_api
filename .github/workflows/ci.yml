@@ -74,4 +74,4 @@ jobs:
       - if: failure()
         run: docker compose logs
       - if: always()
-        run: docker compose down -v  
+        run: docker compose down -v
