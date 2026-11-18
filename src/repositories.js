@@ -21,7 +21,7 @@ function memoryRepository() {
   };
 }
 function postgresRepository(connectionString) {
-  const { Pool } = require("pg");
+  const { Pool } = require('pg');
   const pool = new Pool({ connectionString });
   return {
     async init() {
@@ -32,21 +32,19 @@ function postgresRepository(connectionString) {
       )`);
     },
     async list() {
-      const result = await pool.query(
-        "SELECT id, title, done FROM tasks ORDER BY id",
-      );
+      const result = await pool.query('SELECT id, title, done FROM tasks ORDER BY id');
       return result.rows;
     },
     async create({ title, done }) {
       const result = await pool.query(
-        "INSERT INTO tasks(title, done) VALUES($1,$2) RETURNING id,title,done",
+        'INSERT INTO tasks(title, done) VALUES($1,$2) RETURNING id,title,done',
         [title, done],
       );
       return result.rows[0];
     },
     async complete(id) {
       const result = await pool.query(
-        "UPDATE tasks SET done=TRUE WHERE id=$1 RETURNING id,title,done",
+        'UPDATE tasks SET done=FALSE WHERE id=$1 RETURNING id,title,done',
         [id],
       );
       return result.rows[0] || null;
