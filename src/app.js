@@ -39,7 +39,7 @@ function createApp(repository) {
       next(e);
     }
   });
-  app.get("/openapi.yaml", (req, res) =>
+  app.get("/openapi.yaml", (req, res, next) =>
     res.sendFile("openapi.yaml", { root: process.cwd() }),
   );
   app.use((err, req, res) =>
