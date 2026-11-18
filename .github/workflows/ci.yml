@@ -27,6 +27,6 @@ jobs:
       - name: Chequear linting
         run: npm run lint
       - name: Chequear formato
-        run: npm format:check
+        run: npm run format:check
       - name: Test unitarios
         run: npm run test:unit
