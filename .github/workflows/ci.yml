@@ -49,3 +49,29 @@ jobs:
           path: coverage/
           if-no-files-found: ignore
           retention-days: 7
+   e2e:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Construir y arrancar
+        env:
+          GIT_SHA: ${{ github.sha }}
+        run: docker compose up -d --build
+      - name: Esperar a la versión
+        run: node scripts/wait-for-version.js http://localhost:3000 "$GITHUB_SHA" 90
+      - name: Smoke tests
+        env:
+          BASE_URL: http://localhost:3000
+          EXPECTED_SHA: ${{ github.sha }}
+        run: npm run test:e2e
+      - if: failure()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down -v  
