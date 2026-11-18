@@ -1,6 +1,6 @@
 function validateTitle(title) {
-  if (typeof title !== "string" || !title.trim()) {
-    const error = new Error("title debe ser texto no vacío");
+  if (typeof title !== 'string' || !title.trim()) {
+    const error = new Error('title debe ser texto no vacío');
     error.status = 400;
     throw error;
   }
@@ -16,7 +16,7 @@ function createService(repository) {
     async complete(id) {
       const updated = await repository.complete(Number(id));
       if (!updated) {
-        const error = new Error("Tarea no encontrada");
+        const error = new Error('Tarea no encontrada');
         error.status = 404;
         throw error;
       }
